@@ -1,0 +1,25 @@
+<html>
+<head><title>$CON:title$</title></head>
+<body>
+$INC:small$
+
+$ if (MEMBER) { $
+
+会員トップ<br>
+<a href="/_u">マイプロフ</a><br>
+<a href="/_dia_srch">新着日記</a><br>
+
+$ } else { $
+
+非会員トップ<br>
+<a href="/_r00">会員登録</a><br>
+<a href="/_dia_srch">新着日記</a><br>
+
+$ } $
+
+<br>
+<a href="/faq/">よくある質問</a><br>
+
+$INC:/small$
+</body>
+</html>

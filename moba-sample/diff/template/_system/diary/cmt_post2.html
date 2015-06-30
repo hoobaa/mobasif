@@ -1,0 +1,28 @@
+$STY_USE:diary$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=日記にコメント$
+$INC:small$
+
+以下の内容でよろしければ[コメントする]を押してください。
+
+<hr size="1" color="$STY:color-base$">
+$=hn:content$<br>
+<hr size="1" color="$STY:color-base$">
+
+<center>
+<form action="_cmt_post" method="post">
+<input type="hidden" name="_CODE"      value="あ">
+<input type="hidden" name="d"          value="$=h:d$">
+<input type="hidden" name="comment_id" value="$=h:comment_id$">
+<input type="hidden" name="content"    value="$=h:content$">
+<input type="submit" name="exec" value="コメントする"><br>
+<input type="submit"             value="修正する"><br>
+</form>
+</center>
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

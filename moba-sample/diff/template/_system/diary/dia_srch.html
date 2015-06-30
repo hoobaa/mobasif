@@ -1,0 +1,31 @@
+$STY_USE:diary$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=新着日記$
+$INC:small$
+
+$ loop (List) { $
+<img src="/sample/avatar_30x40.gif" width="30" height="40" align="left" style="margin-right:4"><a href="_dia_view?d=$=h:diary_id$">$=h:subject$</a>$ if (comment_num > 0) { $<font color="#999999">($=h:comment_num$)</font>$ } $<br>
+<div align="right">
+<a href="_u?u=$=h:user_id$">$=h:nickname$</a>
+$=h:PostDate$<br clear="all">
+</div>
+$ if (!Last) { $$INC:dash$$ } $
+$ } $
+
+<!-- ページング -->
+$ if (PrevPageUrl || NextPageUrl) { $
+<hr size="2" color="$STY:color-base$">
+<center>
+$ if (PrevPageUrl) { $<a href="$=b:PrevPageUrl$" accesskey="*">←*前へ</a>$ } $
+$ if (PrevPageUrl && NextPageUrl) { $ | $ } $
+$ if (NextPageUrl) { $<a href="$=b:NextPageUrl$" accesskey="#">次へ#→</a>$ } $
+</center>
+$ } $
+<!--/ ページング -->
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

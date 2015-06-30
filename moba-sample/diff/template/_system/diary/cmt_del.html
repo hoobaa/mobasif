@@ -1,0 +1,32 @@
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=コメント削除$
+$INC:small$
+<center>
+<br>
+
+$ if (Done) { $
+
+削除しました。<br>
+<br>
+⇒<a href="_dia_view?d=$=h:diary_id$">日記へ戻る</a>　<br>
+
+$ } else { $
+
+コメントを削除します<br>
+<br>
+<form action="_cmt_del" method="post">
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="c" value="$=h:c$">
+<input type="submit" name="exec" value="削除する">
+</form>
+
+$ } $
+
+<br>
+</center>
+$INC:/small$
+$INC:footer$
+</body>
+</html>

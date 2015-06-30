@@ -1,0 +1,70 @@
+$STY_USE:regist$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=会員登録(2/3ページ)$
+$INC:small$
+
+$ if (Err) { $
+<font color="red">入力エラーがあります。★印の項目を正しく入力してください。</font><br>
+$ } else { $
+あと少しで登録完了<br>
+$ } $
+<hr size="2" color="$STY:color-base$">
+
+<form action="_r03" method="post">
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="p"     value="r02">
+
+<input type="hidden" name="bymd"  value="$=h:bymd$">
+<input type="hidden" name="sex"   value="$=h:sex$">
+<input type="hidden" name="nn"    value="$=h:nn$">
+
+<font color="$STY:color-base$">■プロフィール項目</font><br>
+
+$ if (ErrBloodE) { $<font color="red">★血液型を選択してください。</font><br>$ } $
+血液型:
+$DOM:a$$INC:/small$$/DOM$
+<select name="blood_type">
+<option value="">[選択]
+<option value="A" $if(blood_type=A)  {$ selected$}$>A型
+<option value="B" $if(blood_type=B)  {$ selected$}$>B型
+<option value="O" $if(blood_type=O)  {$ selected$}$>O型
+<option value="AB"$if(blood_type=AB) {$ selected$}$>AB型
+</select><br>
+$DOM:a$$INC:small$$/DOM$
+
+誕生日:
+$DOM:a$$INC:/small$$/DOM$
+<select name="show_birth">
+<option value="1"$if(show_birth=1){$ selected$}$>$=h:Birthday$
+<option value="0"$if(show_birth<1){$ selected$}$>隠す
+</select><br>
+$DOM:a$$INC:small$$/DOM$
+
+年　齢:
+$DOM:a$$INC:/small$$/DOM$
+<select name="show_age">
+<option value="1"$if(show_age=1){$ selected$}$>$=h:Age$才<br>
+<option value="0"$if(show_age<1){$ selected$}$>隠す
+</select><br>
+$DOM:a$$INC:small$$/DOM$
+
+<!--------------------------------------------------------->
+
+$ if (ErrIntroE) { $<font color="red">★自己紹介文を入力してください。</font><br>$ } $
+$ if (ErrIntroL) { $<font color="red">★自己紹介文が長すぎます。</font><br>$ } $
+<font color="$STY:color-base$">■自己紹介文</font><br>
+<textarea name="intro" rows="3">$=h:intro$</textarea><br>
+(全角200文字以内)<br>
+
+<br>
+<center>
+<input type="submit" name="confirm" value="確　　認">
+</center>
+</form>
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

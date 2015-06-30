@@ -1,0 +1,47 @@
+$STY_USE:user$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+${INC:header:title=$=h:nickname$さん}$
+$INC:small$
+
+<img src="/sample/avatar_120x160.gif" width="120" height="160" align="left" style="margin-right:4;margin-bottom:4"
+><a href="_dia_list?u=$=h:user_id$">日記を見る</a><br>
+<br>
+<font color="gray">部屋をみる</font><br>
+<font color="gray">ミニメ送信</font><br>
+<font color="gray">友達希望</font><br>
+<font color="gray">サークル</font><br>
+<br clear="all">
+
+<div bgcolor="#eeeeee">
+${INC:color-bar:size=1,color=#aaaaaa}$
+$ if (intro) { $
+$=hn:intro$<br>
+$ } else { $
+<center>自己紹介未記入</center>
+$ } $
+${INC:color-bar:size=1,color=#aaaaaa}$
+</div>
+
+$ if (blood_type) { $
+血液型:$=h:blood_type$型<br>
+$INC:dash$
+$ } $
+$ if (show_birth=1 && show_age=1) { $
+誕生日:$=h:Birthday$($=h:Age$才)<br>
+$INC:dash$
+$ } elsif (show_birth=1) { $ 
+誕生日:$=h:Birthday$<br>
+$INC:dash$
+$ } elsif (show_age=1) { $ 
+年　齢:$=h:Age$才<br>
+$INC:dash$
+$}$
+
+$ if (SelfUser) { $<div align="right"><font color="gray">プロフィール編集</font></div>$ } $
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

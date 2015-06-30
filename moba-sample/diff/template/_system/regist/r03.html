@@ -1,0 +1,50 @@
+$STY_USE:regist$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=会員登録(3/3ページ)$
+$INC:small$
+
+$ if (Err) { $
+$ if (ErrSerial) { $
+<font color="red">★携帯電話情報を送信してください。</font><br>
+$ } else { $
+<font color="red">★エラーです</font><br>
+$ } $
+$ } $
+
+以下の内容でよろしいですか？<br>
+<hr size="2" color="$STY:color-base$">
+
+<form action="_r04" method="post" utn>
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="p"     value="r03c">
+
+<input type="hidden" name="bymd"  value="$=h:bymd$">
+<input type="hidden" name="sex"   value="$=h:sex$">
+<input type="hidden" name="nn"    value="$=h:nn$">
+
+<input type="hidden" name="blood_type" value="$=h:blood_type$">
+<input type="hidden" name="show_birth" value="$=h:show_birth$">
+<input type="hidden" name="show_age"   value="$=h:show_age$">
+<input type="hidden" name="intro"      value="$=h:intro$">
+
+ニックネーム: $=h:nn$<br>
+誕生日: $=h:Birthday$$if(show_birth<1){$(隠す)$}$<br>
+年　齢: $if(show_age=1){$$=h:Age$才$}else{$隠す$}$<br>
+性　別: $if(sex=M){$男性$}else{$女性$}$<br>
+血液型: $=h:blood_type$型<br>
+自己紹介:<br>
+$=hn:intro$<br>
+<hr size="2" color="$STY:color-base$">
+
+<center>
+<input type="submit" value="登録する"><br>
+<input type="submit" name="mod_r01" value="修正する"><br>
+</center>
+</form>
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

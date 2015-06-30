@@ -1,0 +1,46 @@
+$STY_USE:diary$
+<html>
+<head>
+<title>$CON:title$</title>
+</head>
+<body $STY:attr-body$>
+${INC:header:title=$=h:nickname$さんの日記}$
+$INC:small$
+
+<a href="_u?u=$=h:u$">プロフィール</a><br>
+$ if (CanAdm) { $<a href="_dia_post?new=1&T=$=h:TIME$">日記を書く</a><br>$ } $<br>
+
+$ loop (List) { $
+
+$INC:space:size=4$
+${INC:color-bar:size=1,color=#aaaaaa}$
+<div align="center" bgcolor="#eeeeee">$=h:PostDate$</div>
+${INC:color-bar:size=1,color=#aaaaaa}$
+$=h:subject$<br>
+$INC:dash$
+$=hn:content$<br>
+
+<div align="right">
+$ if (CanAdm) { $
+[<a href="_dia_mod?d=$=h:diary_id$&modify=1">編集</a>|<a href="_dia_del?d=$=h:diary_id$">削除</a>]<br>
+$ } $
+閲覧($=h:access_num$) コメント($=h:comment_num$) [<a href="_dia_view?d=$=h:diary_id$">詳細</a>]<br>
+</div>
+
+$ } $
+
+<!-- ページング -->
+$ if (PrevPageUrl || NextPageUrl) { $
+<hr size="2" color="$STY:color-base$">
+<center>
+$ if (PrevPageUrl) { $<a href="$=b:PrevPageUrl$" accesskey="*">←*前へ</a>$ } $
+$ if (PrevPageUrl && NextPageUrl) { $ | $ } $
+$ if (NextPageUrl) { $<a href="$=b:NextPageUrl$" accesskey="#">次へ#→</a>$ } $
+</center>
+$ } $
+<!--/ ページング -->
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

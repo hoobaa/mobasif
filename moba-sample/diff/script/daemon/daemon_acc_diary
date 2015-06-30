@@ -1,0 +1,97 @@
+#!/usr/bin/perl
+
+# 日記アクセス数の更新
+
+use File::Copy;
+
+use strict;
+use MobaConf;
+use Daemon;
+use MException;
+use MLog;
+use DA;
+
+my $QUEUE_FILE = "$_::QUEUE_DIR/remote/acc_diary";
+
+Daemon::exec(\&main);
+
+#-----------------------------------------------------------
+
+sub main {
+	eval {
+		process_file();
+	};
+	if ($@) {
+		my $e   = MException::getInfo();
+		my $msg = MException::makeMsg($e);
+		MLog::write("$_::LOG_DIR/acc_diary.err", $msg);
+		eval {
+			DA::rollback();
+		};
+	}
+	DA::release();
+	Daemon::sleep2(1);
+}
+
+#-----------------------------------------------------------
+
+sub process_file {
+	
+	if (!-e "$QUEUE_FILE" &&
+	    !-e "$QUEUE_FILE.use") {
+		return;
+	}
+	if (!-e  "$QUEUE_FILE.use") {
+		move("$QUEUE_FILE", "$QUEUE_FILE.use");
+	}
+	
+	#-------------------------
+	# ファイルからアクセス集計と、最終アクセスユーザ取得
+	
+	my (%access, %last_user);
+	open(IN, "$QUEUE_FILE.use");
+	while (<IN>) {
+		chomp;
+		my ($time, $host, $user_id, $diary_id) = split(/\t/, $_);
+		$access{$diary_id}{$user_id} = 1;
+		$last_user{$diary_id} = $user_id;
+	}
+	close(IN);
+	
+	#-------------------------
+	# データ更新
+	
+	my ($done_num, $err_num) = (0, 0); # ログ用
+	
+	DA::reset();
+	for my $diary_id (keys %access) {
+		
+		my $dbh = DA::getHandle($_::DB_DIARY_W);
+		
+		# 前回の最終アクセスユーザはカウント除外
+		
+		my $sth = $dbh->prepare(<<'SQL');
+		select last_user from diary_data where diary_id=?
+SQL
+		$sth->execute($diary_id);
+		next unless ($sth->rows);
+		my ($old_last_user) = $sth->fetchrow_array();
+		delete($access{$diary_id}{$old_last_user});
+		
+		# UPDATE
+		
+		my $count = scalar(keys %{$access{$diary_id}});
+		next unless ($count);
+		my $sth = $dbh->prepare(<<'SQL');
+		update diary_data set access_num=access_num+?, last_user=?
+		where diary_id=?
+SQL
+		$sth->execute($count, $last_user{$diary_id}, $diary_id);
+		
+		$done_num++;
+	}
+	DA::commit();
+	unlink("$QUEUE_FILE.use");
+	MLog::write("$_::LOG_DIR/acc_diary", "$done_num\t$err_num");
+}
+

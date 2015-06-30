@@ -1,0 +1,33 @@
+$STY_USE:diary$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=日記を消す$
+$INC:small$
+<center>
+<br>
+
+$ if (Done) { $
+
+削除しました<br>
+<br>
+⇒<a href="_dia_list?u=$=h:USER_ID$">日記一覧</a>　<br>
+
+$ } else { $
+
+日記を削除します<br>
+<br>
+<form action="_dia_del" method="post">
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="d" value="$=h:d$">
+<input type="submit" name="exec" value="削除する">
+</form>
+
+$ } $
+
+<br>
+</center>
+$INC:/small$
+$INC:footer$
+</body>
+</html>

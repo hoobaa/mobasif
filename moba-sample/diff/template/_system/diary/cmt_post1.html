@@ -1,0 +1,29 @@
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=日記にコメント$
+$INC:small$
+
+$ if (Err) { $
+<font color="red">
+$ if (ErrContentE) { $★コメントを入力してください<br>$ } $
+$ if (ErrContentL) { $★コメントは全角200文字以内にしてください<br>$ } $
+</font>
+$ } $
+
+コメント:(最大全角200文字)<br>
+<form action="_cmt_post" method="post">
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="d" value="$=h:d$">
+<input type="hidden" name="comment_id" value="$=h:comment_id$">
+
+<textarea name="content" rows="6">$=h:content$</textarea><br>
+<center>
+<input type="submit" name="confirm" value="確　　認">
+</center>
+</form>
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

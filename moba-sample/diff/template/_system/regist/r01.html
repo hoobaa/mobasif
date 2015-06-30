@@ -1,0 +1,83 @@
+$STY_USE:regist$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=会員登録(1/3ページ)$
+$INC:small$
+
+$ if (Err) { $
+<font color="red">入力エラーがあります。★印の項目を正しく入力してください。</font><br>
+$ } else { $
+最初にあなたのニックネーム・性別・誕生日を入力しましょう<br>
+$ } $
+<hr size="2" color="$STY:color-base$">
+
+<form action="_r02" method="post">
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="p"     value="r01">
+
+<input type="hidden" name="blood_type" value="$=h:blood_type$">
+<input type="hidden" name="show_birth" value="$=h:show_birth$">
+<input type="hidden" name="show_age"   value="$=h:show_age$">
+<input type="hidden" name="intro"      value="$=h:intro$">
+
+<!--------------------------------------------------------->
+
+<font color="$STY:color-base$">■ニックネーム</font><br>
+
+$ if (ErrNicknameE) { $
+<font color="red">★ニックネームを入力してください。</font><br>$}$
+$ if (ErrNicknameL) { $
+<font color="red">★ニックネームが長すぎます。</font><br>$}$
+$ if (ErrNicknameEmoji) { $
+<font color="red">★ニックネームに絵文字は使えません。</font><br>$}$
+$ if (ErrNicknameDup) { $
+<font color="red">★ご希望のニックネームは既に使われています。<br></font>$ } $
+
+<input type="text" size="12" maxlength="12" name="nn" value="$=h:nn$" istyle="1"><br>
+(全角6文字以内、絵文字不可)<br>
+
+$INC:space:size=4$
+
+<!--------------------------------------------------------->
+
+<font color="$STY:color-base$">■性別</font><br>
+
+$ if (ErrSexE) { $
+<font color="red">★性別を選択してください</font><br>$ } $
+$DOM:a$$INC:/small$$/DOM$
+<select name="sex">
+<option value="" $if(!sex ){$ selected$}$>[選択]
+<option value="M"$if(sex=M){$ selected$}$>男
+<option value="F"$if(sex=F){$ selected$}$>女<br>
+</select><br>
+$DOM:a$$INC:small$$/DOM$
+
+$INC:space:size=4$
+
+<!--------------------------------------------------------->
+
+<font color="$STY:color-base$">■生年月日</font><br>
+$ if (ErrBirthL) { $
+<font color="red">★半角数字8桁で入力してください。</font><br>$}$
+$ if (ErrBirthV) { $
+<font color="red">★不正な日付です。</font><br>$}$
+$ if (ErrAge) { $
+<font color="red">★年齢が不適切です。</font><br>$}$
+
+<input type="text" size="9" maxlength="8" name="bymd" value="$=h:bymd$" istyle="4"><br>
+(数字8桁で入力 例:19781031)<br>
+
+$INC:space:size=4$
+
+<!--------------------------------------------------------->
+
+<br>
+<center><input type="submit" value="次　　へ"><br></center>
+<br>
+</form>
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>

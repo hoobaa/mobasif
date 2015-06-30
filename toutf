@@ -1,0 +1,15 @@
+#!/usr/bin/env perl
+
+my $ipath = $ARGV[0];
+
+# printf(">>%s\n", $ipath);
+my $codec = `nkf -guss $ipath`;
+chomp($codec);
+printf("codec:%s\n", $codec);
+if ($codec eq 'EUC-JP') {
+    my $cmd = "nkf -E -u --overwrite $ipath";
+    system($cmd);
+} elsif ($codec eq 'CP932' || $codec eq 'Shift_JIS') {
+    my $cmd = "nkf -S -u --overwrite $ipath";
+    system($cmd);
+}

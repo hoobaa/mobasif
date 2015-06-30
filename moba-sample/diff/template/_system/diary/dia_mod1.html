@@ -1,0 +1,31 @@
+$STY_USE:diary$
+<html>
+<head><title>$CON:title$</title></head>
+<body $STY:attr-body$>
+$INC:header:title=日記を編集$
+$INC:small$
+
+$ if (Err) { $
+<font color="red">
+$ if (ErrSubjectE) { $★タイトルを入力してください<br>$ } $
+$ if (ErrSubjectL) { $★タイトルは全角20文字以内にしてください<br>$ } $
+$ if (ErrContentE) { $★内容を入力してください<br>$ } $
+$ if (ErrContentL) { $★内容は全角500文字以内にしてください<br>$ } $
+</font>
+$ } $
+
+<form action="_dia_mod" method="post">
+<input type="hidden" name="_CODE" value="あ">
+<input type="hidden" name="d" value="$=h:d$">
+
+タイトル:<input type="text" name="subject" maxlength="40" size="22" value="$=h:subject$"><br>
+内容:<textarea name="content" rows="6" cols="22">$=h:content$</textarea><br>
+<center>
+<input type="submit" name="confirm" value="確　　認">
+</center>
+</form>
+
+$INC:/small$
+$INC:footer$
+</body>
+</html>
